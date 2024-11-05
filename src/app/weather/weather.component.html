@@ -1,0 +1,88 @@
+<!-- weather.component.html -->
+<div class="weather-container">
+  <div class="search-section">
+    <h1 class="app-title">Weather Forecast</h1>
+    <div class="search-box">
+      <input 
+        [(ngModel)]="city" 
+        type="text" 
+        class="search-input"
+        placeholder="Enter city name..."
+        (keyup.enter)="getWeather()"
+      >
+      <button 
+        (click)="getWeather()" 
+        class="search-button"
+        [disabled]="loading"
+      >
+        <span *ngIf="!loading">Search</span>
+        <div *ngIf="loading" class="loader"></div>
+      </button>
+    </div>
+    
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+  </div>
+
+  <div *ngIf="weatherData" class="weather-card" [@fadeIn]>
+    <div class="location-section">
+      <h2 class="location-name">{{ weatherData.name }}</h2>
+      <div class="temp-display">
+        <span class="temperature">{{ weatherData.main.temp }}°C</span>
+      </div>
+    </div>
+
+    <div class="weather-details">
+      <div class="detail-item">
+        <div class="detail-icon humidity-icon"></div>
+        <div class="detail-info">
+          <span class="detail-label">Humidity</span>
+          <span class="detail-value">{{ weatherData.main.humidity }}%</span>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <div class="detail-icon pressure-icon"></div>
+        <div class="detail-info">
+          <span class="detail-label">Pressure</span>
+          <span class="detail-value">{{ weatherData.main.pressure }} hPa</span>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <div class="detail-icon wind-icon"></div>
+        <div class="detail-info">
+          <span class="detail-label">Wind Speed</span>
+          <span class="detail-value">{{ weatherData.wind.speed }} m/s</span>
+        </div>
+      </div>
+
+      <div class="detail-item">
+        <div class="detail-icon direction-icon"></div>
+        <div class="detail-info">
+          <span class="detail-label">Direction</span>
+          <span class="detail-value">{{ getWindDirection(weatherData.wind.deg) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sun-times">
+      <div class="sun-item">
+        <div class="sun-icon sunrise-icon"></div>
+        <div class="sun-info">
+          <span class="sun-label">Sunrise</span>
+          <span class="sun-time">{{ formatTime(weatherData.sys.sunrise) }}</span>
+        </div>
+      </div>
+
+      <div class="sun-item">
+        <div class="sun-icon sunset-icon"></div>
+        <div class="sun-info">
+          <span class="sun-label">Sunset</span>
+          <span class="sun-time">{{ formatTime(weatherData.sys.sunset) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
